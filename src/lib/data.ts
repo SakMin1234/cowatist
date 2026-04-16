@@ -1,3 +1,15 @@
+import avatarSenjiro from "@/assets/avatar-senjiro.jpg";
+import avatarRokuna from "@/assets/avatar-rokuna.jpg";
+import avatarCalon from "@/assets/avatar-calon.jpg";
+import artHeadshot from "@/assets/art-headshot.jpg";
+import artHalfbody from "@/assets/art-halfbody.jpg";
+import artLandscape from "@/assets/art-landscape.jpg";
+import artChibi from "@/assets/art-chibi.jpg";
+import artChibiArtist from "@/assets/art-chibi-artist.jpg";
+import artFlower from "@/assets/art-flower.jpg";
+import artCatgirl from "@/assets/art-catgirl.jpg";
+import artMountain from "@/assets/art-mountain.jpg";
+
 export interface Artist {
   id: string;
   name: string;
@@ -40,7 +52,7 @@ export const artists: Artist[] = [
   {
     id: "senjiro",
     name: "Senjiro_kun",
-    avatar: "/avatars/senjiro.jpg",
+    avatar: avatarSenjiro,
     rating: 4.45,
     age: 20,
     bio: "You can call me Senjiro or Senji for short, I studying to draw for a year.",
@@ -49,7 +61,7 @@ export const artists: Artist[] = [
   {
     id: "rokuna",
     name: "Roku_na",
-    avatar: "/avatars/rokuna.jpg",
+    avatar: avatarRokuna,
     rating: 4.8,
     age: 22,
     bio: "Illustrator specializing in dynamic half-body portraits and character design.",
@@ -58,7 +70,7 @@ export const artists: Artist[] = [
   {
     id: "calon",
     name: "CalonMarker",
-    avatar: "/avatars/calon.jpg",
+    avatar: avatarCalon,
     rating: 4.9,
     age: 25,
     bio: "Landscape and environment artist. I paint worlds you want to live in.",
@@ -71,7 +83,7 @@ export const commissions: Commission[] = [
     id: "c1",
     artistId: "senjiro",
     title: "Head shot",
-    image: "/art/headshot.jpg",
+    image: artHeadshot,
     price: 250,
     priceLabel: "250+ Baht",
     category: "Head shot",
@@ -86,7 +98,7 @@ export const commissions: Commission[] = [
     id: "c2",
     artistId: "rokuna",
     title: "Half Body",
-    image: "/art/halfbody.jpg",
+    image: artHalfbody,
     price: 1000,
     priceLabel: "1000 Baht",
     category: "Half Body",
@@ -101,7 +113,7 @@ export const commissions: Commission[] = [
     id: "c3",
     artistId: "calon",
     title: "Landscape",
-    image: "/art/landscape.jpg",
+    image: artLandscape,
     price: 1500,
     priceLabel: "1500 Baht",
     category: "Landscape",
@@ -116,7 +128,7 @@ export const commissions: Commission[] = [
     id: "c4",
     artistId: "senjiro",
     title: "Chibi",
-    image: "/art/chibi.jpg",
+    image: artChibi,
     price: 500,
     priceLabel: "500 Baht",
     category: "Chibi",
@@ -131,7 +143,7 @@ export const commissions: Commission[] = [
     id: "c5",
     artistId: "calon",
     title: "Fantasy",
-    image: "/art/chibi-artist.jpg",
+    image: artChibiArtist,
     price: 800,
     priceLabel: "800 Baht",
     category: "Fantasy",
@@ -146,7 +158,7 @@ export const commissions: Commission[] = [
     id: "c6",
     artistId: "rokuna",
     title: "Pet",
-    image: "/art/flower.jpg",
+    image: artFlower,
     price: 350,
     priceLabel: "350 Baht",
     category: "Pet",
@@ -161,7 +173,7 @@ export const commissions: Commission[] = [
     id: "c7",
     artistId: "senjiro",
     title: "Full Body",
-    image: "/art/catgirl.jpg",
+    image: artCatgirl,
     price: 700,
     priceLabel: "700 Baht",
     category: "Full Body",
@@ -176,7 +188,7 @@ export const commissions: Commission[] = [
     id: "c8",
     artistId: "calon",
     title: "Landscape",
-    image: "/art/mountain.jpg",
+    image: artMountain,
     price: 1200,
     priceLabel: "1200 Baht",
     category: "Landscape",
