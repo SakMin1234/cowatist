@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import Header from "@/components/Header";
 import CommissionCard from "@/components/CommissionCard";
-import { categories, commissions } from "@/lib/data";
+import { categories, commissions, getArtist } from "@/lib/data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
