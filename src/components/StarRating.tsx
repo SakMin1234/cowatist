@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { useState } from "react";
 
 interface Props {
   rating: number;
@@ -8,20 +9,36 @@ interface Props {
   size?: number;
 }
 
-export default function StarRating({ rating, maxStars = 5, interactive = false, onChange, size = 20 }: Props) {
+export default function StarRating({
+  rating,
+  maxStars = 5,
+  interactive = false,
+  onChange,
+  size = 20,
+}: Props) {
+  const [hover, setHover] = useState(0);
+  const display = interactive && hover > 0 ? hover : rating;
+
   return (
-    <div className="inline-flex items-center gap-0.5">
+    <div
+      className="inline-flex items-center gap-0.5"
+      onMouseLeave={() => interactive && setHover(0)}
+    >
       {Array.from({ length: maxStars }, (_, i) => {
-        const filled = i < Math.floor(rating);
-        const partial = !filled && i < rating;
+        const value = i + 1;
+        const filled = value <= Math.floor(display);
+        const partial = !filled && value - 1 < display && display < value;
         return (
           <button
             key={i}
             type="button"
             disabled={!interactive}
-            onClick={() => interactive && onChange?.(i + 1)}
-            className={interactive ? "cursor-pointer" : "cursor-default"}
-            aria-label={`${i + 1} star`}
+            onClick={() => interactive && onChange?.(value)}
+            onMouseEnter={() => interactive && setHover(value)}
+            className={`transition-transform ${
+              interactive ? "cursor-pointer hover:scale-110" : "cursor-default"
+            }`}
+            aria-label={`${value} star${value === 1 ? "" : "s"}`}
           >
             <Star
               size={size}
