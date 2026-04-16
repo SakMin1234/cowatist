@@ -11,6 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArtistArtistIdRouteImport } from './routes/artist.$artistId'
+import { Route as CommissionCommissionIdSuccessRouteImport } from './routes/commission.$commissionId.success'
+import { Route as CommissionCommissionIdReviewRouteImport } from './routes/commission.$commissionId.review'
+import { Route as CommissionCommissionIdRequestRouteImport } from './routes/commission.$commissionId.request'
+import { Route as CommissionCommissionIdPaymentRouteImport } from './routes/commission.$commissionId.payment'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +26,90 @@ const ArtistArtistIdRoute = ArtistArtistIdRouteImport.update({
   path: '/artist/$artistId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CommissionCommissionIdSuccessRoute =
+  CommissionCommissionIdSuccessRouteImport.update({
+    id: '/commission/$commissionId/success',
+    path: '/commission/$commissionId/success',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CommissionCommissionIdReviewRoute =
+  CommissionCommissionIdReviewRouteImport.update({
+    id: '/commission/$commissionId/review',
+    path: '/commission/$commissionId/review',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CommissionCommissionIdRequestRoute =
+  CommissionCommissionIdRequestRouteImport.update({
+    id: '/commission/$commissionId/request',
+    path: '/commission/$commissionId/request',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const CommissionCommissionIdPaymentRoute =
+  CommissionCommissionIdPaymentRouteImport.update({
+    id: '/commission/$commissionId/payment',
+    path: '/commission/$commissionId/payment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
+  '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
+  '/commission/$commissionId/request': typeof CommissionCommissionIdRequestRoute
+  '/commission/$commissionId/review': typeof CommissionCommissionIdReviewRoute
+  '/commission/$commissionId/success': typeof CommissionCommissionIdSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
+  '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
+  '/commission/$commissionId/request': typeof CommissionCommissionIdRequestRoute
+  '/commission/$commissionId/review': typeof CommissionCommissionIdReviewRoute
+  '/commission/$commissionId/success': typeof CommissionCommissionIdSuccessRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
+  '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
+  '/commission/$commissionId/request': typeof CommissionCommissionIdRequestRoute
+  '/commission/$commissionId/review': typeof CommissionCommissionIdReviewRoute
+  '/commission/$commissionId/success': typeof CommissionCommissionIdSuccessRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/artist/$artistId'
+  fullPaths:
+    | '/'
+    | '/artist/$artistId'
+    | '/commission/$commissionId/payment'
+    | '/commission/$commissionId/request'
+    | '/commission/$commissionId/review'
+    | '/commission/$commissionId/success'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/artist/$artistId'
-  id: '__root__' | '/' | '/artist/$artistId'
+  to:
+    | '/'
+    | '/artist/$artistId'
+    | '/commission/$commissionId/payment'
+    | '/commission/$commissionId/request'
+    | '/commission/$commissionId/review'
+    | '/commission/$commissionId/success'
+  id:
+    | '__root__'
+    | '/'
+    | '/artist/$artistId'
+    | '/commission/$commissionId/payment'
+    | '/commission/$commissionId/request'
+    | '/commission/$commissionId/review'
+    | '/commission/$commissionId/success'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArtistArtistIdRoute: typeof ArtistArtistIdRoute
+  CommissionCommissionIdPaymentRoute: typeof CommissionCommissionIdPaymentRoute
+  CommissionCommissionIdRequestRoute: typeof CommissionCommissionIdRequestRoute
+  CommissionCommissionIdReviewRoute: typeof CommissionCommissionIdReviewRoute
+  CommissionCommissionIdSuccessRoute: typeof CommissionCommissionIdSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +128,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ArtistArtistIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/commission/$commissionId/success': {
+      id: '/commission/$commissionId/success'
+      path: '/commission/$commissionId/success'
+      fullPath: '/commission/$commissionId/success'
+      preLoaderRoute: typeof CommissionCommissionIdSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/commission/$commissionId/review': {
+      id: '/commission/$commissionId/review'
+      path: '/commission/$commissionId/review'
+      fullPath: '/commission/$commissionId/review'
+      preLoaderRoute: typeof CommissionCommissionIdReviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/commission/$commissionId/request': {
+      id: '/commission/$commissionId/request'
+      path: '/commission/$commissionId/request'
+      fullPath: '/commission/$commissionId/request'
+      preLoaderRoute: typeof CommissionCommissionIdRequestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/commission/$commissionId/payment': {
+      id: '/commission/$commissionId/payment'
+      path: '/commission/$commissionId/payment'
+      fullPath: '/commission/$commissionId/payment'
+      preLoaderRoute: typeof CommissionCommissionIdPaymentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArtistArtistIdRoute: ArtistArtistIdRoute,
+  CommissionCommissionIdPaymentRoute: CommissionCommissionIdPaymentRoute,
+  CommissionCommissionIdRequestRoute: CommissionCommissionIdRequestRoute,
+  CommissionCommissionIdReviewRoute: CommissionCommissionIdReviewRoute,
+  CommissionCommissionIdSuccessRoute: CommissionCommissionIdSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
