@@ -21,8 +21,14 @@ function Index() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const filtered = commissions.filter((c) => {
+    const q = search.trim().toLowerCase();
+    const artist = getArtist(c.artistId);
     const matchesSearch =
-      !search || c.title.toLowerCase().includes(search.toLowerCase());
+      !q ||
+      c.title.toLowerCase().includes(q) ||
+      c.category.toLowerCase().includes(q) ||
+      c.additionalInfo?.toLowerCase().includes(q) ||
+      artist?.name.toLowerCase().includes(q);
     const matchesCategory = !activeCategory || c.category === activeCategory;
     return matchesSearch && matchesCategory;
   });
