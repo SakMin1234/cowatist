@@ -33,10 +33,12 @@ export const Route = createRootRoute({
       { name: "description", content: "Find talented artists and commission custom artwork on COWATIST." },
       { name: "author", content: "COWATIST" },
       { property: "og:title", content: "COWATIST — Art Commission Marketplace" },
-      { property: "og:description", content: "Find talented artists and commission custom artwork." },
+      { property: "og:description", content: "Find talented artists and commission custom artwork on COWATIST." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "COWATIST — Art Commission Marketplace" },
+      { name: "twitter:description", content: "Find talented artists and commission custom artwork on COWATIST." },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
