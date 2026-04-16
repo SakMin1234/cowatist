@@ -44,7 +44,7 @@ export default function Header({ searchValue, onSearchChange, onSearch }: Header
         <div className="h-8 w-8 overflow-hidden rounded-full bg-muted">
           <div className="h-full w-full bg-gradient-to-br from-primary to-accent" />
         </div>
-        <Link to="/" aria-label="Favorites">
+        <Link to="/favorites" aria-label="Your commissions and reviews" className="transition-colors hover:text-primary">
           <Heart className="h-6 w-6" />
         </Link>
       </div>

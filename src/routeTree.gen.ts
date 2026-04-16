@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArtistArtistIdRouteImport } from './routes/artist.$artistId'
 import { Route as CommissionCommissionIdSuccessRouteImport } from './routes/commission.$commissionId.success'
@@ -16,6 +17,11 @@ import { Route as CommissionCommissionIdReviewRouteImport } from './routes/commi
 import { Route as CommissionCommissionIdRequestRouteImport } from './routes/commission.$commissionId.request'
 import { Route as CommissionCommissionIdPaymentRouteImport } from './routes/commission.$commissionId.payment'
 
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -53,6 +59,7 @@ const CommissionCommissionIdPaymentRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
   '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
   '/commission/$commissionId/request': typeof CommissionCommissionIdRequestRoute
@@ -61,6 +68,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
   '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
   '/commission/$commissionId/request': typeof CommissionCommissionIdRequestRoute
@@ -70,6 +78,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/favorites': typeof FavoritesRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
   '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
   '/commission/$commissionId/request': typeof CommissionCommissionIdRequestRoute
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/favorites'
     | '/artist/$artistId'
     | '/commission/$commissionId/payment'
     | '/commission/$commissionId/request'
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/favorites'
     | '/artist/$artistId'
     | '/commission/$commissionId/payment'
     | '/commission/$commissionId/request'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/favorites'
     | '/artist/$artistId'
     | '/commission/$commissionId/payment'
     | '/commission/$commissionId/request'
@@ -105,6 +117,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  FavoritesRoute: typeof FavoritesRoute
   ArtistArtistIdRoute: typeof ArtistArtistIdRoute
   CommissionCommissionIdPaymentRoute: typeof CommissionCommissionIdPaymentRoute
   CommissionCommissionIdRequestRoute: typeof CommissionCommissionIdRequestRoute
@@ -114,6 +127,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -161,6 +181,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  FavoritesRoute: FavoritesRoute,
   ArtistArtistIdRoute: ArtistArtistIdRoute,
   CommissionCommissionIdPaymentRoute: CommissionCommissionIdPaymentRoute,
   CommissionCommissionIdRequestRoute: CommissionCommissionIdRequestRoute,
@@ -170,3 +191,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
