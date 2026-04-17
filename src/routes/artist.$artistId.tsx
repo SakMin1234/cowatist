@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import Header from "@/components/Header";
 import StarRating from "@/components/StarRating";
 import { getArtist, getArtistCommissions } from "@/lib/data";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/artist/$artistId")({
   head: ({ params }) => {
@@ -22,6 +24,26 @@ function ArtistPage() {
   const artist = getArtist(artistId);
   const artistCommissions = getArtistCommissions(artistId);
 
+  const [avgRating, setAvgRating] = useState<number>(0);
+  const [reviewCount, setReviewCount] = useState<number>(0);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase
+        .from("reviews")
+        .select("rating")
+        .eq("artist_id", artistId);
+      if (data && data.length > 0) {
+        const sum = data.reduce((a, r) => a + r.rating, 0);
+        setAvgRating(Math.round((sum / data.length) * 100) / 100);
+        setReviewCount(data.length);
+      } else {
+        setAvgRating(0);
+        setReviewCount(0);
+      }
+    })();
+  }, [artistId]);
+
   if (!artist) {
     return (
       <div className="min-h-screen bg-background">
@@ -37,7 +59,6 @@ function ArtistPage() {
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Artist profile */}
       <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
         <div className="commission-card commission-card-blue overflow-visible p-6">
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
@@ -50,8 +71,10 @@ function ArtistPage() {
               <div className="flex flex-col items-center gap-2 sm:flex-row">
                 <h2 className="font-display text-2xl font-bold">{artist.name}</h2>
                 <div className="flex items-center gap-1">
-                  <StarRating rating={artist.rating} size={18} />
-                  <span className="text-sm font-medium text-muted-foreground">{artist.rating}</span>
+                  <StarRating rating={avgRating} size={18} />
+                  <span className="text-sm font-medium text-muted-foreground">
+                    {reviewCount > 0 ? `${avgRating.toFixed(2)} (${reviewCount})` : "No reviews yet"}
+                  </span>
                 </div>
               </div>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -62,7 +85,6 @@ function ArtistPage() {
           </div>
         </div>
 
-        {/* Commissions */}
         <div className="mt-8 space-y-6">
           {artistCommissions.map((c) => (
             <div key={c.id} className="commission-card commission-card-blue overflow-hidden">
