@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArtistArtistIdRouteImport } from './routes/artist.$artistId'
 import { Route as CommissionCommissionIdSuccessRouteImport } from './routes/commission.$commissionId.success'
@@ -20,6 +21,11 @@ import { Route as CommissionCommissionIdPaymentRouteImport } from './routes/comm
 const FavoritesRoute = FavoritesRouteImport.update({
   id: '/favorites',
   path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +65,7 @@ const CommissionCommissionIdPaymentRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/favorites': typeof FavoritesRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
   '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
@@ -68,6 +75,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/favorites': typeof FavoritesRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
   '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
@@ -78,6 +86,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/favorites': typeof FavoritesRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
   '/commission/$commissionId/payment': typeof CommissionCommissionIdPaymentRoute
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/favorites'
     | '/artist/$artistId'
     | '/commission/$commissionId/payment'
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/favorites'
     | '/artist/$artistId'
     | '/commission/$commissionId/payment'
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/favorites'
     | '/artist/$artistId'
     | '/commission/$commissionId/payment'
@@ -117,6 +129,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   FavoritesRoute: typeof FavoritesRoute
   ArtistArtistIdRoute: typeof ArtistArtistIdRoute
   CommissionCommissionIdPaymentRoute: typeof CommissionCommissionIdPaymentRoute
@@ -132,6 +145,13 @@ declare module '@tanstack/react-router' {
       path: '/favorites'
       fullPath: '/favorites'
       preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -181,6 +201,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   FavoritesRoute: FavoritesRoute,
   ArtistArtistIdRoute: ArtistArtistIdRoute,
   CommissionCommissionIdPaymentRoute: CommissionCommissionIdPaymentRoute,
@@ -191,3 +212,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
