@@ -14,7 +14,140 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      orders: {
+        Row: {
+          artist_id: string
+          commission_id: string
+          commission_image: string | null
+          commission_title: string
+          completed_at: string | null
+          created_at: string
+          customer_email: string
+          customer_name: string
+          delivery_url: string | null
+          description: string
+          id: string
+          is_commercial: boolean
+          paid_at: string
+          price: number
+          reference_image_url: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          artist_id: string
+          commission_id: string
+          commission_image?: string | null
+          commission_title: string
+          completed_at?: string | null
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          delivery_url?: string | null
+          description: string
+          id?: string
+          is_commercial?: boolean
+          paid_at?: string
+          price: number
+          reference_image_url?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          artist_id?: string
+          commission_id?: string
+          commission_image?: string | null
+          commission_title?: string
+          completed_at?: string | null
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          delivery_url?: string | null
+          description?: string
+          id?: string
+          is_commercial?: boolean
+          paid_at?: string
+          price?: number
+          reference_image_url?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          artist_id: string
+          comment: string | null
+          commission_id: string
+          created_at: string
+          id: string
+          order_id: string
+          rating: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          artist_id: string
+          comment?: string | null
+          commission_id: string
+          created_at?: string
+          id?: string
+          order_id: string
+          rating: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          artist_id?: string
+          comment?: string | null
+          commission_id?: string
+          created_at?: string
+          id?: string
+          order_id?: string
+          rating?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: true
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +156,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      order_status: "pending" | "in_progress" | "completed" | "cancelled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +283,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      order_status: ["pending", "in_progress", "completed", "cancelled"],
+    },
   },
 } as const
